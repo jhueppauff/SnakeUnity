@@ -1,16 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Snake : MonoBehaviour {
+public class Snake : MonoBehaviour
+{
+    public Snake Next { get; set; }
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public void RemoveTail()
+    {
+        Destroy(this.gameObject);
+    }
 }
