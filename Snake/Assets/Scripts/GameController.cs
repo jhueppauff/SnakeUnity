@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class GameController : MonoBehaviour
     public GameObject foodPrefab;
     public GameObject currentFood;
     public int score;
+    public Text ScoreValue;
 
     /// <summary>
     /// Defines the direction moving
@@ -159,7 +161,17 @@ public class GameController : MonoBehaviour
         {
             FoodProcessing();
             maxSize++;
+
+            // Update Score
             score++;
+            ScoreValue.text = score.ToString();
+
+            int playerScore = PlayerPrefs.GetInt("HighScore");
+
+            if (score > playerScore)
+            {
+                PlayerPrefs.SetInt("HighScore", score);
+            }
         }
 
         if (sender.ToLowerInvariant() == "snake")
