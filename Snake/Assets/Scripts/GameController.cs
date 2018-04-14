@@ -17,6 +17,7 @@ public class GameController : MonoBehaviour
     public GameObject currentFood;
     public int score;
     public Text ScoreValue;
+    public float speed = 0.5f;
 
     /// <summary>
     /// Defines the direction moving
@@ -38,7 +39,7 @@ public class GameController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        InvokeRepeating("TimerInvoke", 0, 0.5f);
+        InvokeRepeating("TimerInvoke", 0, speed);
         FoodProcessing();
     }
 
@@ -51,6 +52,7 @@ public class GameController : MonoBehaviour
     void TimerInvoke()
     {
         Movement();
+        StartCoroutine(CheckVisability());
 
         if (currentSize >= maxSize)
         {
@@ -159,6 +161,13 @@ public class GameController : MonoBehaviour
     {
         if (sender.ToLowerInvariant() == "food")
         {
+            if (speed >= 0.1f)
+            {
+                speed -= 0.05f;
+                CancelInvoke("TimerInvoke");
+                InvokeRepeating("TimerInvoke", 0, speed);
+            }
+            
             FoodProcessing();
             maxSize++;
 
@@ -185,5 +194,35 @@ public class GameController : MonoBehaviour
     public void Exit()
     {
         SceneManager.LoadScene(0);
+    }
+
+    void Wrap()
+    {
+        if (NESW == 0)
+        {
+            head.transform.position = new Vector2(head.transform.position.x, -(head.transform.position.y - 1));
+        }
+        else if (NESW == 1)
+        {
+            head.transform.position = new Vector2(-(head.transform.position.x - 1), head.transform.position.y);
+        }
+        else if (NESW == 2)
+        {
+            head.transform.position = new Vector2(head.transform.position.x, -(head.transform.position.y + 1));
+        }
+        else if (NESW == 3)
+        {
+            head.transform.position = new Vector2(-(head.transform.position.x + 1), head.transform.position.y);
+        }
+    }
+
+    IEnumerator CheckVisability()
+    {
+        yield return new WaitForEndOfFrame();
+
+        if (!head.GetComponent<Renderer>().isVisible)
+        {
+            Wrap();
+        }
     }
 }
