@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class GameController : MonoBehaviour
     public int yBound;
     public GameObject foodPrefab;
     public GameObject currentFood;
+    public int score;
 
     /// <summary>
     /// Defines the direction moving
@@ -20,6 +22,16 @@ public class GameController : MonoBehaviour
     public int NESW;
 
     public Vector2 nexPos;
+
+    void OnEnable()
+    {
+        Snake.Hit += OnCollision;
+    }
+
+    void OnDisable()
+    {
+        Snake.Hit -= OnCollision;
+    }
 
     // Use this for initialization
     void Start()
@@ -135,5 +147,31 @@ public class GameController : MonoBehaviour
             Destroy(gameObject);
             FoodProcessing();
         }
+    }
+
+    /// <summary>
+    /// Collision Event
+    /// </summary>
+    /// <param name="sender">Tag which was collided</param>
+    void OnCollision(string sender)
+    {
+        if (sender.ToLowerInvariant() == "food")
+        {
+            FoodProcessing();
+            maxSize++;
+            score++;
+        }
+
+        if (sender.ToLowerInvariant() == "snake")
+        {
+            // Cancle Timer
+            CancelInvoke("TimerInvoke");
+            Exit();
+        }
+    }
+
+    public void Exit()
+    {
+        SceneManager.LoadScene(0);
     }
 }

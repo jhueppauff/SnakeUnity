@@ -158,6 +158,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 54293134077937810, guid: 19bac0a2eda2ba64195a44859daca2bf,
+        type: 2}
+      propertyPath: m_CollisionDetection
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 19bac0a2eda2ba64195a44859daca2bf, type: 2}
   m_IsPrefabParent: 0
@@ -279,6 +284,7 @@ MonoBehaviour:
   yBound: 20
   foodPrefab: {fileID: 1823742323463116, guid: fb2ddb1eee848324a9a1d8ae478a7016, type: 2}
   currentFood: {fileID: 0}
+  score: 0
   NESW: 0
   nexPos: {x: 0, y: 0}
 --- !u!4 &1433477559
